@@ -7,31 +7,40 @@ from dataset.mnist import load_mnist
 from two_layer_net import TwoLayerNet
 
 # データの読み込み
+# x_train[60000][784],t_train[60000][10],x_test[10000][784],t_test[10000][10]
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
 
+# 2層ニューラルネットワーク
+# ニューロンの数(入力層:784, 隠れ層:50, 出力層:10)
+# W1[784][50], W2[50][10], b1[50], b2[10]
 network = TwoLayerNet(input_size=784, hidden_size=50, output_size=10)
 
 iters_num = 10000  # 繰り返しの回数を適宜設定する
-train_size = x_train.shape[0]
-batch_size = 100
-learning_rate = 0.1
+train_size = x_train.shape[0]   # 60000
+batch_size = 1000    # 一度に取り出す個数
+learning_rate = 0.1 # 学習率:一回の学習でパラメータを変更する量
 
-train_loss_list = []
-train_acc_list = []
-test_acc_list = []
+train_loss_list = []    # 損失関数の値を格納
+train_acc_list = []     # 訓練データにおける認識制度を格納
+test_acc_list = []      # テストデータにおける認識制度を格納
 
-iter_per_epoch = max(train_size / batch_size, 1)
+# 1エポックあたりの繰り返し数。1エポック:訓練データを全て使い切った時の回数
+# エポック:繰り返しの単位
+iter_per_epoch = max(train_size / batch_size, 1)    #600
 
 for i in range(iters_num):
+    # batch_mask[100], 0~59999のランダムな値が格納
     batch_mask = np.random.choice(train_size, batch_size)
+    # [100][784], batch_maskをインデックスにしてデータの抽出、格納。
     x_batch = x_train[batch_mask]
     t_batch = t_train[batch_mask]
 
     # 勾配の計算
     #grad = network.numerical_gradient(x_batch, t_batch)
-    grad = network.gradient(x_batch, t_batch)
+    grad = network.gradient(x_batch, t_batch)   #逆伝播、次章で解説
 
     # パラメータの更新
+    # W1,W2,b1,b2を勾配の学習率倍で更新
     for key in ('W1', 'b1', 'W2', 'b2'):
         network.params[key] -= learning_rate * grad[key]
 
@@ -43,11 +52,12 @@ for i in range(iters_num):
         test_acc = network.accuracy(x_test, t_test)
         train_acc_list.append(train_acc)
         test_acc_list.append(test_acc)
-        print("train acc, test acc, loss | " + str(train_acc) + ", " + str(test_acc) +", "+str(loss))
+        print("train acc, test acc | " + str(train_acc) + ", " + str(test_acc))
 
 # グラフの描画
 markers = {'train': 'o', 'test': 's'}
 
+# accuracy
 # x = np.arange(len(train_acc_list))
 # plt.plot(x, train_acc_list, label='train acc')
 # plt.plot(x, test_acc_list, label='test acc', linestyle='--')
@@ -56,11 +66,12 @@ markers = {'train': 'o', 'test': 's'}
 # plt.ylim(0, 1.0)
 # plt.legend(loc='lower right')
 
+# loss
 x = np.arange(len(train_loss_list))
 plt.plot(x, train_loss_list, label='train loss')
 plt.xlabel("epochs")
 plt.ylabel("loss")
-plt.ylim(0, 10.0)
+plt.ylim(0, 5.0)
 plt.legend(loc='lower right')
 
 plt.show()
