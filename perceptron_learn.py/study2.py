@@ -18,6 +18,7 @@ print(lc.OR(0,1))
 print(lc.OR(1,0))
 print(lc.OR(1,1))
 
+
 print("---XOR---")
 print(lc.XOR(0,0))
 print(lc.XOR(0,1))
