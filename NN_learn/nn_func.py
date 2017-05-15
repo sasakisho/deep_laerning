@@ -21,11 +21,14 @@ def get_data():
     (x_train,t_train),(x_test,t_test)=load_mnist(normalize=True,flatten=True,one_hot_label=False)
     return x_test,t_test
 
+# 重み付け、バイアスデータが入ったファイルの読み込み
+# 第0層(入力層)784、第1層(隠れ層)50、第2層(隠れ層)100、第3層(出力層)10
 def init_network():
     with open("sample_weight.pkl",'rb') as f:
         network = pickle.load(f)
     return network
 
+# ニューラルネットワークの内積の計算→ソフトマックス関数値に変換
 def predict(network,x):
     W1,W2,W3=network['W1'],network['W2'],network['W3']
     b1,b2,b3=network['b1'],network['b2'],network['b3']
