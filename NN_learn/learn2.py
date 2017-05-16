@@ -37,10 +37,10 @@ def forward(network,x):
     A1 = np.dot(X,W1)+b1
     S1 = sigmoid(A1)
 
-    A2 = np.dot(Z1,W2) + b2
+    A2 = np.dot(S1,W2) + b2
     S2 = sigmoid(A2)
 
-    A3 = np.dot(Z2,W3) + b3
+    A3 = np.dot(S2,W3) + b3
     Y = identity_function(A3)
 
     return Y
