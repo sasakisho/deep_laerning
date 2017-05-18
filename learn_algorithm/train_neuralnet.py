@@ -14,19 +14,20 @@ import time
 # 2層ニューラルネットワーク
 # ニューロンの数(入力層:784, 隠れ層:50, 出力層:10)
 # W1[784][50], W2[50][10], b1[50], b2[10]
-network = TwoLayerNet(input_size=784, hidden_size=10, output_size=10)
+network = TwoLayerNet(input_size=784, hidden_size=50, output_size=10)
 
 # ハイパーパラメータ:人に手により設定されるパラメータ。自動化できない
-iters_num = 10000  # 繰り返しの回数を適宜設定する
+iters_num = 10000               # 繰り返しの回数を適宜設定する
 train_size = x_train.shape[0]   # [60000,784][0] = 60000
-batch_size = 100    # 一度に取り出す個数
-learning_rate = 0.1 # 学習率:一回の学習でパラメータを変更する量
+batch_size = 100                # 一度に取り出す個数
+learning_rate = 0.1             # 学習率:一回の学習でパラメータを変更する量
 
 train_loss_list = []    # 損失関数の値を格納
 train_acc_list = []     # 訓練データにおける認識精度を格納
 test_acc_list = []      # テストデータにおける認識精度を格納
 
-# 1エポックあたりの繰り返し数。1エポック:訓練データを全て使い切った時の回数
+# 1エポックあたりの繰り返し数。
+# 1エポック:訓練データを全て使い切った時のバッチ処理の繰り返し回数
 # エポック:繰り返しの単位
 iter_per_epoch = max(train_size / batch_size, 1)    #600
 
