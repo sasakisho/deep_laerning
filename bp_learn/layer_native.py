@@ -27,8 +27,8 @@ class AddLayer:
         return out
 
     def backward(self,dout):
-        dx=dout*1
-        dy=dout*1
+        dx=dout
+        dy=dout
         return dx,dy
 
 # ReLUレイヤ
@@ -39,7 +39,7 @@ class Relu:
     def forward(self,x):
         self.mask=(x<=0)
         out=x.copy()
-        out[self.mask]
+        out[self.mask]=0
         return out
 
     def backward(self,dout):
