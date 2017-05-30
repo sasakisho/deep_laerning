@@ -11,13 +11,16 @@ import time
 # x_train[60000][784],t_train[60000][10],x_test[10000][784],t_test[10000][10]
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
 
+x_train, t_train = x_train[:5000], t_train[:5000]
+x_test, t_test = x_test[:1000], t_test[:1000]
+
 # 2層ニューラルネットワーク
 # ニューロンの数(入力層:784, 隠れ層:50, 出力層:10)
 # W1[784][50], W2[50][10], b1[50], b2[10]
 network = TwoLayerNet(input_size=784, hidden_size=50, output_size=10)
 
 # ハイパーパラメータ:人に手により設定されるパラメータ。自動化できない
-iters_num = 10000               # 繰り返しの回数を適宜設定する
+iters_num = 1000                # 繰り返しの回数を適宜設定する
 train_size = x_train.shape[0]   # [60000,784][0] = 60000
 batch_size = 100                # 一度に取り出す個数
 learning_rate = 0.1             # 学習率:一回の学習でパラメータを変更する量
@@ -71,20 +74,20 @@ print("elapsed_time:"+ str(elapsed_time) + "[sec]")
 markers = {'train': 'o', 'test': 's'}
 
 # accuracy
-# x = np.arange(len(train_acc_list))
-# plt.plot(x, train_acc_list, label='train acc')
-# plt.plot(x, test_acc_list, label='test acc', linestyle='--')
-# plt.xlabel("epochs")
-# plt.ylabel("accuracy")
-# plt.ylim(0, 1.0)
-# plt.legend(loc='lower right')
+x = np.arange(len(train_acc_list))
+plt.plot(x, train_acc_list, label='train acc')
+plt.plot(x, test_acc_list, label='test acc', linestyle='--')
+plt.xlabel("epochs")
+plt.ylabel("accuracy")
+plt.ylim(0, 1.0)
+plt.legend(loc='lower right')
 
 # loss
-x = np.arange(len(train_loss_list))
-plt.plot(x, train_loss_list, label='train loss')
-plt.xlabel("iteration")
-plt.ylabel("loss")
-plt.ylim(0, 5.0)
-plt.legend(loc='upper right')
+# x = np.arange(len(train_loss_list))
+# plt.plot(x, train_loss_list, label='train loss')
+# plt.xlabel("iteration")
+# plt.ylabel("loss")
+# plt.ylim(0, 5.0)
+# plt.legend(loc='upper right')
 
 plt.show()
